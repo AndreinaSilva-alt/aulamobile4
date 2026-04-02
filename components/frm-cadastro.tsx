@@ -13,10 +13,11 @@ import { supabase } from '@/lib/supabase';
 
 import { router } from 'expo-router';//captura de rota
 
-export default function Login() {
+export default function Cadastro() {
 
-    const [usuario, setUsuario] = useState('')
-    const [senha, setSenha] = useState('')
+    const [nomeAluno, setNomeAluno] = useState('')
+    const [idadeAluno, setIdadeAluno] = useState('')
+    const [emailAluno, setEmailAluno] = useState('')
     
     const [loading, setLoading] = useState(false)
 
@@ -24,10 +25,16 @@ export default function Login() {
 
         setLoading(true)
 
-        const { error } = await supabase.auth.signInWithPassword({
-            email: usuario,
-            password: senha,
-        })
+        const { error } = await supabase
+            .from('tb_aluno')
+            .insert(
+                {
+                    nomeAluno, 
+                    idadeAluno, 
+                    emailAluno
+                }
+            )
+        .select()
 
         if(error){
             Toast.show({
@@ -37,7 +44,11 @@ export default function Login() {
             })
         }else{
             setLoading(false)
-            router.replace('/(tabs)');
+            Toast.show({
+                type: 'success',
+                text1: 'Sucesso!',
+                text2: 'Cadastro realizado com sucesso!'
+            })
         }
         
     }
@@ -48,23 +59,29 @@ export default function Login() {
 
             <TextInput
                 style={styles.Input}
-                placeholder="Informe seu usuário"
-                value={usuario}
-                onChangeText={setUsuario}
+                placeholder="Informe seu nome"
+                value={nomeAluno}
+                onChangeText={setNomeAluno}
             />
 
             <TextInput
                 style={styles.Input}
-                placeholder="Informe sua senha"
-                value={senha}
-                onChangeText={setSenha}
-                secureTextEntry
+                placeholder="Informe sua idade"
+                value={idadeAluno}
+                onChangeText={setIdadeAluno}
+            />
+
+            <TextInput
+                style={styles.Input}
+                placeholder="Informe seu e-mail"
+                value={emailAluno}
+                onChangeText={setEmailAluno}
             />
 
             <Toast />
 
             <TouchableOpacity style={styles.Button} onPress={validarLogin} disabled={loading}>
-                <Text style={styles.Text}>Entrar</Text>
+                <Text style={styles.Text}>Cadastrar Aluno</Text>
             </TouchableOpacity>
         </View>
     );
