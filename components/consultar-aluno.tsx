@@ -8,6 +8,13 @@ export default function ConsultarAluno(){
     const [alunos, setAlunos] = useState<any[]>([]);
     const isFocused = useIsFocused();
 
+    useEffect(() => {
+        if(isFocused){
+            carregarAlunos();
+        }
+        
+    }, [isFocused]); 
+
     async function carregarAlunos(){
         const { data, error } = await supabase
             .from("tb_aluno")
