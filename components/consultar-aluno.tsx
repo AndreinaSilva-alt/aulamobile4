@@ -28,7 +28,7 @@ export default function ConsultarAluno(){
             <Text>Consultar Aluno</Text>
             <FlatList
                  data ={ alunos }
-                 keyExtractor={ (item) => item.id.toStrig() }
+                 keyExtractor={ (item) => item.id.toString() }
                  renderItem={({item}) =>(
                     <View>
                         <Text>{item.nome}</Text>
