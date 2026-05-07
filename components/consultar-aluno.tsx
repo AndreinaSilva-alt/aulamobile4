@@ -29,7 +29,9 @@ export default function ConsultarAluno() {
             text1: 'Erro',
             text2: 'Erro ao editar aluno ' + id + nome,
         });
-        router.push('/(tabs)/cadastro');
+        router.push({pathname:'/(tabs)/cadastro', params: {id: id}});
+        
+
     }
 
     async function excluirAuluno(id: number, nome: string){
@@ -50,7 +52,7 @@ export default function ConsultarAluno() {
             })
         }
         carregarAlunos();
-        
+
         Toast.show({
             type: 'success', 
             text1: 'Sucesso',
