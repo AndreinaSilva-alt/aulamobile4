@@ -51,25 +51,27 @@ export default function Alterar() {
     }
 
     
-    async function validarLogin() {
+    async function atualizarAluno() {
 
         setLoading(true)
 
-        const { error } = await supabase
+        const {data,  error } = await supabase
             .from('tb_aluno')
-            .insert(
+            .update(
                 {
                     nome: nomeAluno, 
                     idade: idadeAluno, 
                     email: emailAluno
                 }
             )
+            .eq('id', id)
+            .select()
         .select()
 
         if(error){
             Toast.show({
                 type: 'error',
-                text1: 'Erro!',
+                text1: 'Aluno não foi atualizadp!',
                 text2: error.message
             })
         }else{
@@ -77,7 +79,7 @@ export default function Alterar() {
             Toast.show({
                 type: 'success',
                 text1: 'Sucesso!',
-                text2: 'Cadastro realizado com sucesso!'
+                text2: `Aluno ${data?.[0]?.nome} Atualizado com sucesso!`
             })
         }
         
@@ -110,7 +112,7 @@ export default function Alterar() {
 
             <Toast />
 
-            <TouchableOpacity style={styles.Button} onPress={validarLogin} disabled={loading}>
+            <TouchableOpacity style={styles.Button} onPress={atualizarAluno} disabled={loading}>
                 <Text style={styles.Text}>Alterar Aluno</Text>
             </TouchableOpacity>
         </View>
